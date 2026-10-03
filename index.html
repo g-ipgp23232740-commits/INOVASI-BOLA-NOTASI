@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>INOVASI BOLA NOTASI - Pendidikan Muzik Sekolah Rendah</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            300: '#5eead4',
+                            500: '#14b8a6',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                            deep: '#03254c',
+                        },
+                        ball: {
+                            krocet: '#ec4899',   /* Pink */
+                            minim: '#eab308',    /* Yellow */
+                            kuaver: '#3b82f6',   /* Blue */
+                            semibrif: '#a855f7', /* Purple */
+                            rehat: '#22c55e'     /* Green */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Fredoka', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fredoka', 'Inter', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            background: linear-gradient(180deg, #0284c7 0%, #0369a1 40%, #0f172a 100%);
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 31, 63, 0.37);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Ping Pong Ball 3D Spherical Effect */
+        .pingpong-ball {
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset -6px -6px 12px rgba(0, 0, 0, 0.35), inset 6px 6px 12px rgba(255, 255, 255, 0.8), 0 8px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: grab;
+            position: relative;
+        }
+        .pingpong-ball:active {
+            cursor: grabbing;
+            transform: scale(1.08);
+        }
+
+        /* Floating Animation */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        /* Swimming Fish */
+        @keyframes swimLeft {
+            0% { transform: translateX(110vw) scaleX(-1); }
+            100% { transform: translateX(-10vw) scaleX(-1); }
+        }
+        .fish-swim {
+            position: absolute;
+            animation: swimLeft 18s linear infinite;
+        }
+
+        /* Bubbles Background */
+        @keyframes riseBubble {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+            border-radius: 50%;
+            pointer-events: none;
+            animation: riseBubble linear infinite;
+        }
+
+        /* Magnetic Glow */
+        .magnetic-target {
+            transition: all 0.2s ease;
+        }
+        .magnetic-target.drag-over {
+            border-color: #38bdf8;
+            box-shadow: 0 0 25px #38bdf8, inset 0 0 15px #38bdf8;
+            transform: scale(1.02);
+        }
+
+        /* Stacked Fraction Style for Meter */
+        .meter-fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 0.9;
+            font-weight: 800;
+        }
+        .meter-fraction .top-num {
+            border-bottom: 3px solid currentColor;
+            padding-bottom: 2px;
+            width: 100%;
+            text-align: center;
+        }
+        .meter-fraction .bot-num {
+            padding-top: 2px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Bounce effect */
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.08); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-bounce-in {
+            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Active highlight for clapping rhythm */
+        .ball-clapping {
+            box-shadow: 0 0 20px 8px #fef08a, inset -4px -4px 10px rgba(0, 0, 0, 0.2) !important;
+            transform: scale(1.15) translateY(-8px) !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col justify-between relative min-h-screen">
+
+    <!-- UNDERWATER BACKGROUND DECORATIONS -->
+    <div id="bubbles-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+    <div id="seaweed-container" class="fixed bottom-0 left-0 right-0 h-32 pointer-events-none z-0 flex justify-between items-end opacity-40 px-4">
+        <div class="text-6xl animate-pulse">🌿</div>
+        <div class="text-5xl animate-bounce">🪸</div>
+        <div class="text-7xl animate-pulse">🌾</div>
+        <div class="text-6xl">🪸</div>
+        <div class="text-5xl animate-bounce">🌿</div>
+    </div>
+    <div class="fish-swim top-1/4 text-4xl pointer-events-none z-0">🐠</div>
+    <div class="fish-swim top-2/3 text-5xl pointer-events-none z-0" style="animation-delay: 6s; animation-duration: 22s;">🐬</div>
+    <div class="fish-swim top-1/2 text-3xl pointer-events-none z-0" style="animation-delay: 11s; animation-duration: 15s;">🐢</div>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="relative z-20 w-full px-4 py-3 glass-panel border-b border-white/20 flex flex-wrap items-center justify-between shadow-lg">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="showScreen('screen-home')">
+            <div class="w-12 h-12 rounded-full bg-cyan-400 border-2 border-white flex items-center justify-center text-2xl shadow-md animate-bounce">
+                🏓
+            </div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-black text-white tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    INOVASI BOLA NOTASI
+                </h1>
+                <p class="text-xs text-cyan-200 font-semibold tracking-wider">OCEAN CLASSROOM MUSIC ADVENTURE</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 mt-2 sm:mt-0">
+            <!-- Audio Toggle Button (SFX) -->
+            <button id="btn-audio-toggle" onclick="toggleAudio()" class="px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-sm border border-white/40 flex items-center gap-1.5 transition">
+                <span id="audio-icon">🔊</span> <span id="audio-label" class="hidden sm:inline">KESAN BUNYI: ON</span>
+            </button>
+
+            <!-- Background Music Toggle Button -->
+            <button id="btn-bgm-toggle" onclick="toggleBGM()" class="px-3 py-1.5 rounded-xl bg-emerald-500/80 hover:bg-emerald-500 text-white font-bold text-sm border border-emerald-300/50 flex items-center gap-1.5 transition shadow">
+                <span id="bgm-icon">🎵</span> <span id="bgm-label" class="hidden sm:inline">LAGU LATAR: ON</span>
+            </button>
+
+            <!-- Debug Toggle -->
+            <button onclick="toggleDebug()" class="px-3 py-1.5 rounded-xl bg-amber-500/80 hover:bg-amber-500 text-white font-bold text-sm border border-amber-300/50 flex items-center gap-1 transition">
+                🐛 <span class="hidden sm:inline">DEBUG</span>
+            </button>
+
+            <!-- Quick Modals Buttons -->
+            <button onclick="openModal('modal-cara-bermain')" class="px-3 py-1.5 rounded-xl bg-cyan-500/80 hover:bg-cyan-500 text-white font-bold text-sm border border-cyan-300/50 shadow transition">
+                📖 PANDUAN
+            </button>
+            <button onclick="openModal('modal-not-nilai')" class="px-3 py-1.5 rounded-xl bg-purple-500/80 hover:bg-purple-500 text-white font-bold text-sm border border-purple-300/50 shadow transition">
+                🎵 NOT & NILAI
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER FOR ALL SCREENS -->
+    <main class="relative z-10 flex-1 w-full max-w-7xl mx-auto p-4 flex flex-col justify-center">
+
+        <!-- SCREEN 1: HOMEPAGE -->
+        <section id="screen-home" class="screen-view flex flex-col items-center justify-center text-center py-6">
+            <div class="glass-panel p-6 md:p-10 rounded-3xl max-w-3xl w-full flex flex-col items-center relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 text-8xl opacity-20 pointer-events-none">🐙</div>
+                <div class="absolute -bottom-10 -left-10 text-8xl opacity-20 pointer-events-none">🐬</div>
+
+                <div class="inline-block px-4 py-1 rounded-full bg-cyan-400/30 text-cyan-100 text-sm font-bold border border-cyan-300/40 mb-3">
+                    🌊 PENDIDIKAN MUZIK SEKOLAH RENDAH
+                </div>
+
+                <h2 class="text-3xl md:text-5xl font-black text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] mb-2">
+                    MISI CIPTA CORAK IRAMA
+                </h2>
+                <p class="text-lg md:text-xl text-cyan-100 font-medium mb-6">
+                    “Bina, kira dan tepuk corak irama dengan Bola Notasi Bawah Laut!”
+                </p>
+
+                <!-- Graphic Showcase -->
+                <div class="flex flex-wrap justify-center items-center gap-4 my-4 p-4 bg-white/10 rounded-2xl border border-white/20 w-full">
+                    <div class="flex items-center gap-2">
+                        <div class="pingpong-ball bg-ball-krocet w-12 h-12 text-white font-bold text-lg">♩</div>
+                        <div class="pingpong-ball bg-ball-minim w-12 h-12 text-white font-bold text-lg">𝅗𝅥</div>
+                        <div class="pingpong-ball bg-ball-kuaver w-12 h-12 text-white font-bold text-lg">♪</div>
+                        <div class="pingpong-ball bg-ball-semibrif w-12 h-12 text-white font-bold text-lg">𝅝</div>
+                        <div class="pingpong-ball bg-ball-rehat w-12 h-12 text-white font-bold text-lg">𝄽</div>
+                    </div>
+                    <div class="text-2xl text-white font-bold">➡️</div>
+                    <div class="text-4xl animate-bounce">🫙</div>
+                    <div class="text-2xl text-white font-bold">➡️</div>
+                    <div class="text-4xl animate-pulse">👏</div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md mt-6">
+                    <button onclick="startGame()" class="col-span-1 sm:col-span-2 py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-300 hover:to-teal-400 text-slate-900 font-black text-xl shadow-xl border-2 border-emerald-200 transform hover:-translate-y-1 active:translate-y-0 transition flex items-center justify-center gap-2">
+                        🎡 MULA PERMAINAN
+                    </button>
+
+                    <button onclick="openModal('modal-cara-bermain')" class="py-3 px-4 rounded-xl bg-cyan-600/80 hover:bg-cyan-600 text-white font-bold text-base border border-cyan-300/40 shadow transition">
+                        📖 CARA BERMAIN
+                    </button>
+
+                    <button onclick="openModal('modal-not-nilai')" class="py-3 px-4 rounded-xl bg-purple-600/80 hover:bg-purple-600 text-white font-bold text-base border border-purple-300/40 shadow transition">
+                        🎵 NOT & NILAI
+                    </button>
+
+                    <button onclick="startSandboxMode()" class="col-span-1 sm:col-span-2 py-3 px-4 rounded-xl bg-amber-500/90 hover:bg-amber-500 text-slate-900 font-bold text-base border border-amber-200 shadow transition">
+                        🎯 CABARAN CIPTA IRAMA
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: PILIH METER (WHEEL SPIN) -->
+        <section id="screen-meter" class="screen-view hidden flex-col items-center justify-center py-4">
+            <div class="glass-panel p-6 rounded-3xl max-w-2xl w-full flex flex-col items-center text-center relative">
+                <div class="text-xs font-bold text-cyan-200 bg-cyan-900/60 px-3 py-1 rounded-full border border-cyan-400/30 mb-2">
+                    LANGKAH 1 DARI 5
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-white mb-1">🎡 PILIH METER MUZIK</h2>
+                <p class="text-sm md:text-base text-cyan-100 mb-6">Pusing Roda Meter Bawah Laut untuk menentukan meter permainan kamu!</p>
+
+                <!-- Spin Wheel Container -->
+                <div class="relative my-4 flex flex-col items-center">
+                    <!-- Wheel Pointer -->
+                    <div class="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[30px] border-t-amber-400 z-20 -mb-4 filter drop-shadow-md"></div>
+                    
+                    <!-- Canvas Wheel -->
+                    <canvas id="wheel-canvas" width="320" height="320" class="rounded-full shadow-2xl border-4 border-amber-300 bg-cyan-950/50 cursor-pointer"></canvas>
+                    
+                    <!-- Center Spin Button -->
+                    <button id="btn-spin-wheel" onclick="spinWheel()" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-300 border-4 border-white text-slate-900 font-black text-lg shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition z-10">
+                        PUSING!
+                    </button>
+                </div>
+
+                <!-- Selected Meter Result Banner -->
+                <div id="meter-result-box" class="hidden mt-4 p-4 rounded-2xl bg-emerald-500/90 border-2 border-emerald-200 text-white font-black text-xl animate-bounce-in flex items-center gap-3">
+                    <span>METER DIPILIH:</span>
+                    <div id="meter-display-result" class="text-2xl bg-white text-emerald-900 px-3 py-1 rounded-xl shadow"></div>
+                </div>
+
+                <button id="btn-next-to-claw" onclick="goToClawMachineScreen()" class="hidden mt-6 py-3 px-8 rounded-2xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-900 font-black text-lg shadow-xl border-2 border-amber-200 animate-pulse transition">
+                    🕹️ TERUSKAN KE CLAW MACHINE ➡️
+                </button>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: PILIH SOALAN (CLAW MACHINE) -->
+        <section id="screen-claw" class="screen-view hidden flex-col items-center justify-center py-4">
+            <div class="glass-panel p-6 rounded-3xl max-w-4xl w-full flex flex-col items-center relative">
+                <div class="text-xs font-bold text-cyan-200 bg-cyan-900/60 px-3 py-1 rounded-full border border-cyan-400/30 mb-2">
+                    LANGKAH 2 DARI 5
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-white mb-1">🕹️ CLAW MACHINE SOALAN</h2>
+                <p class="text-sm text-cyan-100 mb-4 text-center">
+                    Mesin Claw untuk Meter yang dipilih telah sedia! Pilih kad soalan ikut tahap kesukaran.
+                </p>
+
+                <!-- Meter Indicator Stacked -->
+                <div class="flex items-center gap-3 bg-white/20 px-4 py-2 rounded-2xl border border-white/30 mb-6">
+                    <span class="text-white font-bold">METER AKTIF:</span>
+                    <div id="active-meter-badge" class="bg-cyan-400 text-slate-900 font-black px-3 py-1 rounded-xl shadow flex items-center justify-center"></div>
+                </div>
+
+                <!-- 3 Digital Claw Machines Showcase -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mb-6">
+                    <!-- Claw Machine 2/4 -->
+                    <div id="claw-box-24" class="glass-card p-4 rounded-2xl flex flex-col items-center border-4 transition-all opacity-60">
+                        <div class="text-xs font-bold px-2 py-1 bg-pink-500 text-white rounded-lg mb-2">🩷 CLAW MACHINE 2/4</div>
+                        <div class="meter-fraction text-2xl text-pink-600 my-2">
+                            <span class="top-num">2</span>
+                            <span class="bot-num">4</span>
+                        </div>
+                        <div class="text-4xl my-2">🕹️</div>
+                        <span class="text-xs font-bold text-slate-600">2 DETIK / BAR</span>
+                    </div>
+
+                    <!-- Claw Machine 3/4 -->
+                    <div id="claw-box-34" class="glass-card p-4 rounded-2xl flex flex-col items-center border-4 transition-all opacity-60">
+                        <div class="text-xs font-bold px-2 py-1 bg-blue-500 text-white rounded-lg mb-2">💙 CLAW MACHINE 3/4</div>
+                        <div class="meter-fraction text-2xl text-blue-600 my-2">
+                            <span class="top-num">3</span>
+                            <span class="bot-num">4</span>
+                        </div>
+                        <div class="text-4xl my-2">🕹️</div>
+                        <span class="text-xs font-bold text-slate-600">3 DETIK / BAR</span>
+                    </div>
+
+                    <!-- Claw Machine 4/4 -->
+                    <div id="claw-box-44" class="glass-card p-4 rounded-2xl flex flex-col items-center border-4 transition-all opacity-60">
+                        <div class="text-xs font-bold px-2 py-1 bg-purple-500 text-white rounded-lg mb-2">💜 CLAW MACHINE 4/4</div>
+                        <div class="meter-fraction text-2xl text-purple-600 my-2">
+                            <span class="top-num">4</span>
+                            <span class="bot-num">4</span>
+                        </div>
+                        <div class="text-4xl my-2">🕹️</div>
+                        <span class="text-xs font-bold text-slate-600">4 DETIK / BAR</span>
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="flex flex-wrap justify-center gap-3 text-xs font-bold text-white mb-4 bg-slate-900/40 px-4 py-2 rounded-xl">
+                    <span class="text-emerald-300">🟢 Hijau — Mudah</span>
+                    <span class="text-yellow-300">🟡 Kuning — Sederhana</span>
+                    <span class="text-rose-300">🔴 Merah — Sukar</span>
+                </div>
+
+                <!-- Question Cards Grid -->
+                <div id="question-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full max-h-80 overflow-y-auto p-2">
+                    <!-- Generated via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: INTERACTIVE PLAYGROUND (BOLA & BOTOL) -->
+        <section id="screen-gameplay" class="screen-view hidden flex-col py-2">
+            
+            <!-- TOP BAR STATS & PROGRESS -->
+            <div class="glass-panel p-3 rounded-2xl mb-4 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <button onclick="goToClawMachineScreen()" class="px-2.5 py-1 rounded-lg bg-white/20 hover:bg-white/30 text-white font-bold text-xs border border-white/30">
+                        ⬅️ TUKAR SOALAN
+                    </button>
+                    <div id="game-progress-label" class="bg-cyan-900/80 text-cyan-200 px-3 py-1 rounded-xl text-xs font-bold border border-cyan-400/40">
+                        🎵 MISI 1/6
+                    </div>
+                </div>
+
+                <!-- Progress dots -->
+                <div id="progress-dots" class="flex gap-1.5 text-lg text-white/40">
+                    <span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="text-xs font-bold text-amber-300 bg-slate-900/60 px-3 py-1 rounded-xl border border-amber-400/30">
+                        ⭐ SKOR: <span id="live-score-val" class="text-sm text-white">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAIN RESPONSIVE GAME AREA -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+                
+                <!-- LEFT COLUMN: QUESTION CARD & INFO (3 cols) -->
+                <div class="lg:col-span-3 glass-card p-4 rounded-3xl flex flex-col gap-3">
+                    <div id="question-badge-difficulty" class="self-start text-xs font-bold px-2.5 py-1 rounded-full text-white">
+                        🟢 MUDAH
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <h3 id="question-title" class="text-base font-black text-slate-800">Soalan 1</h3>
+                        <!-- Meter stacked display -->
+                        <div id="game-meter-display" class="bg-slate-900 text-white px-2 py-1 rounded-lg text-sm font-black"></div>
+                    </div>
+
+                    <div class="p-3 bg-cyan-50 rounded-2xl border border-cyan-200">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">ARAHAN MISI:</p>
+                        <p id="question-instruction" class="text-sm font-bold text-slate-800">
+                            Cipta corak irama menggunakan 2 Krocet.
+                        </p>
+                    </div>
+
+                    <div class="text-xs text-slate-600 bg-slate-100 p-2.5 rounded-xl border border-slate-200">
+                        💡 <span class="font-bold">PETUNJUK:</span> Pilih bola pingpong dan masukkan ke dalam botol sehingga jumlah detik mencapai nilai meter (<span id="target-beat-label" class="font-bold text-teal-700">2 detik</span>).
+                    </div>
+                </div>
+
+                <!-- CENTER COLUMN: BOTOL NOTASI DROP ZONE (5 cols) -->
+                <div class="lg:col-span-5 glass-panel p-4 rounded-3xl flex flex-col items-center justify-between min-h-[380px] relative">
+                    
+                    <div class="w-full flex items-center justify-between mb-2">
+                        <span class="text-xs font-black text-white bg-slate-900/60 px-3 py-1 rounded-full border border-white/20">
+                            🫙 BOTOL CORAK IRAMA
+                        </span>
+                        
+                        <button onclick="clearBottle()" class="text-xs font-bold bg-rose-500/80 hover:bg-rose-500 text-white px-2.5 py-1 rounded-lg border border-rose-300 transition shadow">
+                            🧹 KOSONGKAN
+                        </button>
+                    </div>
+
+                    <!-- THE PHYSICAL BOTTLE DROP CONTAINER -->
+                    <div id="bottle-drop-zone" class="magnetic-target w-full flex-1 max-w-sm my-2 bg-white/30 rounded-3xl border-4 border-dashed border-cyan-200/80 p-4 flex flex-col justify-end items-center relative overflow-hidden shadow-inner min-h-[220px]">
+                        
+                        <!-- Water/Glass bottle background accent -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-cyan-400/20 to-transparent pointer-events-none"></div>
+                        <div class="absolute top-2 left-1/2 transform -translate-x-1/2 text-xs font-bold text-cyan-100/70 pointer-events-none">
+                            PETAK BOLA NOTASI
+                        </div>
+
+                        <!-- Dropped Balls Rack inside bottle -->
+                        <div id="bottle-balls-container" class="relative z-10 flex flex-wrap justify-center items-center gap-3 w-full py-2">
+                            <!-- Balls rendered dynamically here -->
+                        </div>
+
+                        <!-- Live Calculation Math Bar -->
+                        <div class="relative z-10 w-full mt-3 p-2 bg-slate-900/80 rounded-2xl border border-cyan-300/40 text-center">
+                            <div class="text-[10px] font-bold text-cyan-300 uppercase">PENGIRAAN DETIK SEMASA:</div>
+                            <div id="bottle-math-equation" class="text-xs font-bold text-amber-300 my-0.5">
+                                0 DETIK
+                            </div>
+                            <div id="bottle-total-sum" class="text-base font-black text-white">
+                                JUMLAH = 0 DETIK
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VALIDATION FEEDBACK BANNER -->
+                    <div id="validation-banner" class="w-full p-2.5 rounded-2xl text-center text-sm font-black hidden animate-bounce-in">
+                        <!-- Correct / Incorrect feedback injected here -->
+                    </div>
+
+                    <!-- ACTION BUTTONS: SEMAK & TEPUK -->
+                    <div class="grid grid-cols-2 gap-3 w-full mt-2">
+                        <button id="btn-validate-rhythm" onclick="validateRhythmAnswer()" class="py-3 px-3 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-300 hover:to-teal-400 text-slate-900 font-black text-sm shadow-lg border-2 border-emerald-200 transition">
+                            ✅ SEMAK JAWAPAN
+                        </button>
+
+                        <button id="btn-clap-rhythm" onclick="playRhythmClaps()" disabled class="py-3 px-3 rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 disabled:opacity-50 text-white font-black text-sm shadow-lg border-2 border-purple-300 transition flex items-center justify-center gap-1">
+                            👏 TEPUK CORAK IRAMA
+                        </button>
+                    </div>
+
+                    <button id="btn-next-question" onclick="nextQuestion()" class="hidden w-full mt-2 py-3 px-4 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-black text-base shadow-xl border-2 border-amber-200 animate-pulse transition">
+                        SOALAN SETERUSNYA ➡️
+                    </button>
+                </div>
+
+                <!-- RIGHT COLUMN: PING PONG BALL SHELF / PALETTE (4 cols) -->
+                <div class="lg:col-span-4 glass-card p-4 rounded-3xl flex flex-col gap-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-black text-slate-800">🏓 RAK BOLA NOTASI</h3>
+                        <span class="text-[10px] font-bold bg-cyan-100 text-cyan-800 px-2 py-0.5 rounded-full">
+                            KLIK / SERET BOLA
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-slate-500">
+                        Klik atau seret bola pingpong notasi di bawah untuk dimasukkan ke dalam botol.
+                    </p>
+
+                    <!-- Ping Pong Balls Palette Grid -->
+                    <div class="grid grid-cols-1 gap-2.5">
+                        <!-- Krocet -->
+                        <div onclick="addBallToBottle('krocet')" class="p-2 rounded-2xl bg-pink-50 border-2 border-pink-200 hover:border-pink-400 flex items-center justify-between cursor-pointer active:scale-95 transition shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="pingpong-ball bg-ball-krocet w-11 h-11 text-white font-bold text-lg">♩</div>
+                                <div>
+                                    <div class="text-xs font-black text-pink-700">KROCET</div>
+                                    <div class="text-[10px] font-bold text-slate-500">1 DETIK</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold bg-pink-500 text-white px-2 py-1 rounded-lg">+ TAMBAH</span>
+                        </div>
+
+                        <!-- Minim -->
+                        <div onclick="addBallToBottle('minim')" class="p-2 rounded-2xl bg-amber-50 border-2 border-amber-200 hover:border-amber-400 flex items-center justify-between cursor-pointer active:scale-95 transition shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="pingpong-ball bg-ball-minim w-11 h-11 text-white font-bold text-lg">𝅗𝅥</div>
+                                <div>
+                                    <div class="text-xs font-black text-amber-700">MINIM</div>
+                                    <div class="text-[10px] font-bold text-slate-500">2 DETIK</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold bg-amber-500 text-white px-2 py-1 rounded-lg">+ TAMBAH</span>
+                        </div>
+
+                        <!-- Kuaver -->
+                        <div onclick="addBallToBottle('kuaver')" class="p-2 rounded-2xl bg-blue-50 border-2 border-blue-200 hover:border-blue-400 flex items-center justify-between cursor-pointer active:scale-95 transition shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="pingpong-ball bg-ball-kuaver w-11 h-11 text-white font-bold text-lg">♪</div>
+                                <div>
+                                    <div class="text-xs font-black text-blue-700">KUAVER</div>
+                                    <div class="text-[10px] font-bold text-slate-500">½ DETIK</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold bg-blue-500 text-white px-2 py-1 rounded-lg">+ TAMBAH</span>
+                        </div>
+
+                        <!-- Semibrif -->
+                        <div onclick="addBallToBottle('semibrif')" class="p-2 rounded-2xl bg-purple-50 border-2 border-purple-200 hover:border-purple-400 flex items-center justify-between cursor-pointer active:scale-95 transition shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="pingpong-ball bg-ball-semibrif w-11 h-11 text-white font-bold text-lg">𝅝</div>
+                                <div>
+                                    <div class="text-xs font-black text-purple-700">SEMIBRIF</div>
+                                    <div class="text-[10px] font-bold text-slate-500">4 DETIK</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold bg-purple-500 text-white px-2 py-1 rounded-lg">+ TAMBAH</span>
+                        </div>
+
+                        <!-- Rehat Krocet -->
+                        <div onclick="addBallToBottle('rehat')" class="p-2 rounded-2xl bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-400 flex items-center justify-between cursor-pointer active:scale-95 transition shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="pingpong-ball bg-ball-rehat w-11 h-11 text-white font-bold text-lg">𝄽</div>
+                                <div>
+                                    <div class="text-xs font-black text-emerald-700">REHAT KROCET</div>
+                                    <div class="text-[10px] font-bold text-slate-500">1 DETIK DIAM</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold bg-emerald-500 text-white px-2 py-1 rounded-lg">+ TAMBAH</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SCREEN 5: VICTORY & SUMMARY -->
+        <section id="screen-victory" class="screen-view hidden flex-col items-center justify-center py-6">
+            <div class="glass-panel p-8 rounded-3xl max-w-2xl w-full flex flex-col items-center text-center relative overflow-hidden">
+                <div class="text-6xl my-2 animate-bounce">🏆</div>
+                <h2 class="text-3xl md:text-4xl font-black text-white mb-1">TAHNIAH! MISI SELESAI!</h2>
+                <p class="text-cyan-100 font-bold text-base mb-6">Kamu telah berjaya menguasai Inovasi Bola Notasi!</p>
+
+                <!-- Stats Card -->
+                <div class="glass-card p-6 rounded-2xl w-full text-slate-800 mb-6 grid grid-cols-2 gap-4 text-left">
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 block">SOALAN SELESAI:</span>
+                        <span class="text-xl font-black text-teal-600">6 / 6 MISI</span>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 block">SKOR KESELURUHAN:</span>
+                        <span id="final-score-val" class="text-xl font-black text-amber-500">600 MATA</span>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 block">PERCUBAAN PERTAMA:</span>
+                        <span id="final-first-try-val" class="text-base font-bold text-slate-700">6 Soalan</span>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 block">PENGUASAAN MUZIK:</span>
+                        <span class="text-base font-bold text-emerald-600">CEMERLANG 🌟</span>
+                    </div>
+                </div>
+
+                <!-- Learning Outcome Box -->
+                <div class="w-full p-4 bg-slate-900/60 rounded-2xl border border-cyan-300/30 text-left text-xs text-cyan-100 mb-6">
+                    <div class="font-bold text-amber-300 mb-1">🎓 NILAI PEMBELAJARAN TERAPAK:</div>
+                    <ul class="grid grid-cols-2 gap-1 font-semibold">
+                        <li>🎵 Mengenal nilai not</li>
+                        <li>🧮 Mengira detik</li>
+                        <li>🎼 Memahami meter</li>
+                        <li>🏓 Membina corak irama</li>
+                        <li>👏 Menepuk corak irama</li>
+                        <li>🧠 Pemikiran muzik</li>
+                    </ul>
+                </div>
+
+                <div class="flex flex-wrap gap-3 justify-center w-full">
+                    <button onclick="startGame()" class="py-3 px-6 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-900 font-black text-base shadow-lg">
+                        🔄 MAIN SEMULA
+                    </button>
+                    <button onclick="startSandboxMode()" class="py-3 px-6 rounded-2xl bg-amber-400 text-slate-900 font-black text-base shadow-lg">
+                        🎯 CABARAN CIPTA IRAMA
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL: CARA BERMAIN -->
+    <div id="modal-cara-bermain" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full p-6 rounded-3xl border-2 border-white max-h-[90vh] overflow-y-auto relative">
+            <button onclick="closeModal('modal-cara-bermain')" class="absolute top-4 right-4 text-2xl font-black text-slate-400 hover:text-slate-800">✖</button>
+            
+            <h3 class="text-2xl font-black text-teal-700 mb-4 flex items-center gap-2">
+                📖 PANDUAN PERMAINAN BOLA NOTASI
+            </h3>
+
+            <div class="space-y-4 text-sm text-slate-700 font-medium">
+                <div class="flex gap-3 items-start p-3 bg-cyan-50 rounded-2xl">
+                    <span class="text-2xl">1. 🎡</span>
+                    <div>
+                        <strong class="text-slate-900 block">PILIH METER</strong>
+                        Pusing Roda Meter Bawah Laut untuk mendapatkan meter lagu (2/4, 3/4, atau 4/4).
+                    </div>
+                </div>
+
+                <div class="flex gap-3 items-start p-3 bg-blue-50 rounded-2xl">
+                    <span class="text-2xl">2. 🕹️</span>
+                    <div>
+                        <strong class="text-slate-900 block">PILIH SOALAN</strong>
+                        Pilih kad soalan dari Claw Machine mengikut tahap 🟢 Mudah, 🟡 Sederhana, atau 🔴 Sukar.
+                    </div>
+                </div>
+
+                <div class="flex gap-3 items-start p-3 bg-pink-50 rounded-2xl">
+                    <span class="text-2xl">3. 🏓</span>
+                    <div>
+                        <strong class="text-slate-900 block">PILIH BOLA PINGPONG NOTASI</strong>
+                        Pilih bola pingpong yang mengandungi simbol not dan nilai detik yang diperlukan.
+                    </div>
+                </div>
+
+                <div class="flex gap-3 items-start p-3 bg-amber-50 rounded-2xl">
+                    <span class="text-2xl">4. 🫙</span>
+                    <div>
+                        <strong class="text-slate-900 block">MASUKKAN BOLA & KIRA DETIK</strong>
+                        Seret atau klik bola ke dalam botol. Pastikan jumlah nilai detik bola bersamaan dengan meter!
+                    </div>
+                </div>
+
+                <div class="flex gap-3 items-start p-3 bg-purple-50 rounded-2xl">
+                    <span class="text-2xl">5. 👏</span>
+                    <div>
+                        <strong class="text-slate-900 block">TEPUK CORAK IRAMA</strong>
+                        Tekan butang Tepuk Corak Irama untuk mendengarkan dan menepuk mengikut metronom.
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="closeModal('modal-cara-bermain')" class="mt-6 w-full py-3 bg-teal-600 text-white font-black rounded-xl hover:bg-teal-700">
+                FAHAM & TUTUP
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: NOT & NILAI REFERENCE -->
+    <div id="modal-not-nilai" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-xl w-full p-6 rounded-3xl border-2 border-white max-h-[90vh] overflow-y-auto relative">
+            <button onclick="closeModal('modal-not-nilai')" class="absolute top-4 right-4 text-2xl font-black text-slate-400 hover:text-slate-800">✖</button>
+            
+            <h3 class="text-2xl font-black text-purple-700 mb-4 flex items-center gap-2">
+                🎵 JADUAL NOT & NILAI DETIK
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div class="p-3 rounded-2xl bg-pink-100 border border-pink-300 flex items-center gap-3">
+                    <div class="pingpong-ball bg-ball-krocet w-12 h-12 text-white font-bold text-xl">♩</div>
+                    <div>
+                        <div class="font-black text-pink-800">KROCET</div>
+                        <div class="text-xs font-bold text-slate-600">Simbol: ♩ | Nilai: 1 detik</div>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-amber-100 border border-amber-300 flex items-center gap-3">
+                    <div class="pingpong-ball bg-ball-minim w-12 h-12 text-white font-bold text-xl">𝅗𝅥</div>
+                    <div>
+                        <div class="font-black text-amber-800">MINIM</div>
+                        <div class="text-xs font-bold text-slate-600">Simbol: 𝅗𝅥 | Nilai: 2 detik</div>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-blue-100 border border-blue-300 flex items-center gap-3">
+                    <div class="pingpong-ball bg-ball-kuaver w-12 h-12 text-white font-bold text-xl">♪</div>
+                    <div>
+                        <div class="font-black text-blue-800">KUAVER</div>
+                        <div class="text-xs font-bold text-slate-600">Simbol: ♪ | Nilai: ½ detik</div>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-purple-100 border border-purple-300 flex items-center gap-3">
+                    <div class="pingpong-ball bg-ball-semibrif w-12 h-12 text-white font-bold text-xl">𝅝</div>
+                    <div>
+                        <div class="font-black text-purple-800">SEMIBRIF</div>
+                        <div class="text-xs font-bold text-slate-600">Simbol: 𝅝 | Nilai: 4 detik</div>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center gap-3 sm:col-span-2">
+                    <div class="pingpong-ball bg-ball-rehat w-12 h-12 text-white font-bold text-xl">𝄽</div>
+                    <div>
+                        <div class="font-black text-emerald-800">REHAT KROCET</div>
+                        <div class="text-xs font-bold text-slate-600">Simbol: 𝄽 | Nilai: 1 detik diam (tanpa tepukan)</div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="closeModal('modal-not-nilai')" class="w-full py-3 bg-purple-600 text-white font-black rounded-xl hover:bg-purple-700">
+                TUTUP JADUAL
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: CABARAN CIPTA IRAMA (SANDBOX) -->
+    <div id="modal-sandbox" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-2xl w-full p-6 rounded-3xl border-2 border-white max-h-[90vh] overflow-y-auto relative">
+            <button onclick="closeModal('modal-sandbox')" class="absolute top-4 right-4 text-2xl font-black text-slate-400 hover:text-slate-800">✖</button>
+            
+            <h3 class="text-2xl font-black text-amber-600 mb-2 flex items-center gap-2">
+                🎯 CABARAN CIPTA IRAMA BEBAS
+            </h3>
+            <p class="text-xs text-slate-600 mb-4">Cipta corak irama ciptaan kamu sendiri dan dengarkan iramanya!</p>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="text-xs font-bold text-slate-700">✏️ NAMA PENCIPTA:</label>
+                    <input id="sandbox-name" type="text" value="Murid Muzik" class="w-full p-2.5 rounded-xl border border-slate-300 font-bold text-sm mt-1">
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-slate-700">🎵 PILIH METER:</label>
+                    <select id="sandbox-meter" onchange="resetSandboxBottle()" class="w-full p-2.5 rounded-xl border border-slate-300 font-bold text-sm mt-1">
+                        <option value="2/4">2/4 (2 Detik)</option>
+                        <option value="3/4">3/4 (3 Detik)</option>
+                        <option value="4/4" selected>4/4 (4 Detik)</option>
+                    </select>
+                </div>
+
+                <div class="p-4 bg-slate-900 rounded-2xl text-center">
+                    <span class="text-xs text-cyan-300 font-bold">CORAK IRAMA KAMU:</span>
+                    <div id="sandbox-balls-box" class="flex flex-wrap justify-center items-center gap-2 my-3 min-h-[50px]">
+                        <!-- Sandbox dropped balls -->
+                    </div>
+                    <div id="sandbox-math" class="text-xs text-amber-300 font-bold">JUMLAH = 0 DETIK</div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <button onclick="addSandboxBall('krocet')" class="px-3 py-1.5 rounded-xl bg-pink-500 text-white font-bold text-xs">♩ Krocet</button>
+                    <button onclick="addSandboxBall('minim')" class="px-3 py-1.5 rounded-xl bg-amber-500 text-white font-bold text-xs">𝅗𝅥 Minim</button>
+                    <button onclick="addSandboxBall('kuaver')" class="px-3 py-1.5 rounded-xl bg-blue-500 text-white font-bold text-xs">♪ Kuaver</button>
+                    <button onclick="addSandboxBall('semibrif')" class="px-3 py-1.5 rounded-xl bg-purple-500 text-white font-bold text-xs">𝅝 Semibrif</button>
+                    <button onclick="addSandboxBall('rehat')" class="px-3 py-1.5 rounded-xl bg-emerald-500 text-white font-bold text-xs">𝄽 Rehat</button>
+                    <button onclick="resetSandboxBottle()" class="px-3 py-1.5 rounded-xl bg-rose-500 text-white font-bold text-xs">🧹 Reset</button>
+                </div>
+
+                <button onclick="playSandboxRhythm()" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black rounded-xl shadow-lg">
+                    👏 MAIN & TEPUK CORAK CIPTAAN
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEBUG OVERLAY PANEL -->
+    <div id="debug-panel" class="fixed bottom-2 left-2 z-50 bg-slate-900/95 text-green-400 p-3 rounded-2xl border border-green-500/40 text-[10px] font-mono hidden max-w-xs shadow-2xl pointer-events-none">
+        <div class="font-bold text-yellow-400 border-b border-slate-700 pb-1 mb-1">🐛 DEBUG MODE</div>
+        <div>FPS: <span id="debug-fps">60</span></div>
+        <div>Screen: <span id="debug-screen">home</span></div>
+        <div>Selected Meter: <span id="debug-meter">-</span></div>
+        <div>Question Index: <span id="debug-qidx">-</span></div>
+        <div>Bottle Beats: <span id="debug-beats">0</span></div>
+        <div>Target Beats: <span id="debug-target">0</span></div>
+        <div>Validation: <span id="debug-val">PENDING</span></div>
+        <div>Audio Context: <span id="debug-audio">suspended</span></div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 w-full py-2 text-center text-[11px] text-cyan-200/70 font-semibold">
+        INOVASI BOLA NOTASI &copy; 2026 — PENDIDIKAN MUZIK SEKOLAH RENDAH
+    </footer>
+
+    <script>
+        // NOTE DICTIONARY
+        const NOTES = {
+            krocet:   { name: 'Krocet',       symbol: '♩',  value: 1,   colorClass: 'bg-ball-krocet',   textColor: 'text-pink-600' },
+            minim:    { name: 'Minim',        symbol: '𝅗𝅥', value: 2,   colorClass: 'bg-ball-minim',    textColor: 'text-amber-600' },
+            kuaver:   { name: 'Kuaver',       symbol: '♪',  value: 0.5, colorClass: 'bg-ball-kuaver',   textColor: 'text-blue-600' },
+            semibrif: { name: 'Semibrif',     symbol: '𝅝',  value: 4,   colorClass: 'bg-ball-semibrif', textColor: 'text-purple-600' },
+            rehat:    { name: 'Rehat Krocet', symbol: '𝄽',  value: 1,   colorClass: 'bg-ball-rehat',    textColor: 'text-emerald-600', isRest: true }
+        };
+
+        // QUESTIONS DATABASE
+        const QUESTIONS_DATABASE = {
+            '2/4': [
+                { id: '24_1', text: 'Cipta corak irama menggunakan 2 Krocet.', targetBeats: 2, difficulty: 'easy', requiredCounts: { krocet: 2 } },
+                { id: '24_2', text: 'Cipta corak irama menggunakan 1 Minim.', targetBeats: 2, difficulty: 'easy', requiredCounts: { minim: 1 } },
+                { id: '24_3', text: 'Cipta corak irama menggunakan 1 Krocet dan 2 Kuaver.', targetBeats: 2, difficulty: 'medium', requiredCounts: { krocet: 1, kuaver: 2 } },
+                { id: '24_4', text: 'Cipta corak irama menggunakan 4 Kuaver.', targetBeats: 2, difficulty: 'medium', requiredCounts: { kuaver: 4 } },
+                { id: '24_5', text: 'Cipta corak irama menggunakan 1 Rehat Krocet dan 1 Krocet.', targetBeats: 2, difficulty: 'hard', requiredCounts: { rehat: 1, krocet: 1 } },
+                { id: '24_6', text: 'Cipta corak irama 2 detik menggunakan Rehat Krocet dan Kuaver.', targetBeats: 2, difficulty: 'hard', requiredCounts: { rehat: 1, kuaver: 2 } }
+            ],
+            '3/4': [
+                { id: '34_1', text: 'Cipta corak irama menggunakan 3 Krocet.', targetBeats: 3, difficulty: 'easy', requiredCounts: { krocet: 3 } },
+                { id: '34_2', text: 'Cipta corak irama menggunakan 1 Minim dan 1 Krocet.', targetBeats: 3, difficulty: 'easy', requiredCounts: { minim: 1, krocet: 1 } },
+                { id: '34_3', text: 'Cipta corak irama menggunakan 2 Krocet dan 2 Kuaver.', targetBeats: 3, difficulty: 'medium', requiredCounts: { krocet: 2, kuaver: 2 } },
+                { id: '34_4', text: 'Cipta corak irama menggunakan 1 Minim dan 2 Kuaver.', targetBeats: 3, difficulty: 'medium', requiredCounts: { minim: 1, kuaver: 2 } },
+                { id: '34_5', text: 'Cipta corak irama menggunakan 1 Rehat Krocet, 1 Krocet, dan 2 Kuaver.', targetBeats: 3, difficulty: 'hard', requiredCounts: { rehat: 1, krocet: 1, kuaver: 2 } },
+                { id: '34_6', text: 'Cipta corak irama 3 detik mengandungi Rehat Krocet dan Minim.', targetBeats: 3, difficulty: 'hard', requiredCounts: { rehat: 1, minim: 1 } }
+            ],
+            '4/4': [
+                { id: '44_1', text: 'Cipta corak irama menggunakan 4 Krocet.', targetBeats: 4, difficulty: 'easy', requiredCounts: { krocet: 4 } },
+                { id: '44_2', text: 'Cipta corak irama menggunakan 1 Semibrif.', targetBeats: 4, difficulty: 'easy', requiredCounts: { semibrif: 1 } },
+                { id: '44_3', text: 'Cipta corak irama menggunakan 2 Minim.', targetBeats: 4, difficulty: 'medium', requiredCounts: { minim: 2 } },
+                { id: '44_4', text: 'Cipta corak irama menggunakan 1 Minim, 1 Krocet, dan 2 Kuaver.', targetBeats: 4, difficulty: 'medium', requiredCounts: { minim: 1, krocet: 1, kuaver: 2 } },
+                { id: '44_5', text: 'Cipta corak irama menggunakan 2 Krocet, 1 Rehat Krocet, dan 2 Kuaver.', targetBeats: 4, difficulty: 'hard', requiredCounts: { krocet: 2, rehat: 1, kuaver: 2 } },
+                { id: '44_6', text: 'Cipta corak irama 4 detik mengandungi 1 Semibrif.', targetBeats: 4, difficulty: 'hard', requiredCounts: { semibrif: 1 } }
+            ]
+        };
+
+        // GAME STATE
+        let gameState = {
+            audioEnabled: true,
+            bgmEnabled: true,
+            debugEnabled: false,
+            currentScreen: 'screen-home',
+            selectedMeter: '2/4',
+            currentQuestionIndex: 0,
+            bottleBalls: [], // array of note keys e.g. ['krocet', 'kuaver']
+            attemptsCount: 1,
+            score: 0,
+            firstTryCount: 0,
+            completedQuestions: new Set(),
+            sandboxBalls: []
+        };
+
+        // WEB AUDIO SYNTHESIZER ENGINE
+        let audioCtx = null;
+        let bgmInterval = null;
+        let bgmStep = 0;
+        let isBgmPlaying = false;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            if (!gameState.audioEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+
+                if (type === 'pop') {
+                    // Bubble / Ping-pong pop sound
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'spin') {
+                    // Quick click tick sound for wheel spin
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300 + Math.random() * 120, now);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.03);
+                } else if (type === 'correct') {
+                    // Cheerful major chord arpeggio
+                    const chord = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                    chord.forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                        gain.gain.setValueAtTime(0.2, now + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + idx * 0.08);
+                        osc.stop(now + idx * 0.08 + 0.3);
+                    });
+                } else if (type === 'wrong') {
+                    // Low error buzz
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(160, now);
+                    osc.frequency.linearRampToValueAtTime(110, now + 0.25);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'clap') {
+                    // Hand clap / percussive woodblock snap
+                    const bufferSize = ctx.sampleRate * 0.08;
+                    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = Math.random() * 2 - 1;
+                    }
+                    const noise = ctx.createBufferSource();
+                    noise.buffer = buffer;
+
+                    const filter = ctx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(1200, now);
+                    filter.Q.setValueAtTime(1.5, now);
+
+                    const gain = ctx.createGain();
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+                    noise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    noise.start(now);
+                    noise.stop(now + 0.08);
+                }
+            } catch (e) {
+                console.warn('playSound error:', e);
+            }
+        }
+
+        // PROCEDURAL UNDERWATER BACKGROUND MUSIC
+        const BGM_CHORDS = [
+            [261.63, 329.63, 392.00, 493.88], // Cmaj7
+            [220.00, 261.63, 329.63, 392.00], // Am7
+            [174.61, 220.00, 261.63, 329.63], // Fmaj7
+            [196.00, 246.94, 293.66, 349.23]  // G7
+        ];
+
+        function playBgmStep() {
+            if (!gameState.bgmEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                
+                const chordIdx = Math.floor(bgmStep / 8) % BGM_CHORDS.length;
+                const chord = BGM_CHORDS[chordIdx];
+                const noteFreq = chord[bgmStep % chord.length];
+
+                // Soft sine wave arpeggio note
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                const filter = ctx.createBiquadFilter();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(noteFreq, now);
+
+                // Gentle underwater filter setup
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(750, now);
+
+                gain.gain.setValueAtTime(0.035, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.45);
+
+                // Soft bass note at the start of each chord cycle
+                if (bgmStep % 8 === 0) {
+                    const bassOsc = ctx.createOscillator();
+                    const bassGain = ctx.createGain();
+                    bassOsc.type = 'triangle';
+                    bassOsc.frequency.setValueAtTime(chord[0] / 2, now);
+                    
+                    bassGain.gain.setValueAtTime(0.05, now);
+                    bassGain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+
+                    bassOsc.connect(filter);
+                    bassGain.connect(ctx.destination);
+
+                    bassOsc.start(now);
+                    bassOsc.stop(now + 1.2);
+                }
+
+                bgmStep = (bgmStep + 1) % 32;
+            } catch (e) {
+                console.warn('BGM error:', e);
+            }
+        }
+
+        function startBGM() {
+            if (isBgmPlaying) return;
+            isBgmPlaying = true;
+            if (!bgmInterval) {
+                bgmInterval = setInterval(playBgmStep, 250); // Relaxed rhythm
+            }
+        }
+
+        function stopBGM() {
+            if (bgmInterval) {
+                clearInterval(bgmInterval);
+                bgmInterval = null;
+            }
+            isBgmPlaying = false;
+        }
+
+        function toggleBGM() {
+            gameState.bgmEnabled = !gameState.bgmEnabled;
+            document.getElementById('bgm-icon').textContent = gameState.bgmEnabled ? '🎵' : '🔇';
+            document.getElementById('bgm-label').textContent = gameState.bgmEnabled ? 'LAGU LATAR: ON' : 'LAGU LATAR: OFF';
+            
+            const btn = document.getElementById('btn-bgm-toggle');
+            if (gameState.bgmEnabled) {
+                btn.className = 'px-3 py-1.5 rounded-xl bg-emerald-500/80 hover:bg-emerald-500 text-white font-bold text-sm border border-emerald-300/50 flex items-center gap-1.5 transition shadow';
+                startBGM();
+            } else {
+                btn.className = 'px-3 py-1.5 rounded-xl bg-slate-600/80 hover:bg-slate-600 text-white font-bold text-sm border border-slate-400/50 flex items-center gap-1.5 transition shadow';
+                stopBGM();
+            }
+        }
+
+        function toggleAudio() {
+            gameState.audioEnabled = !gameState.audioEnabled;
+            document.getElementById('audio-icon').textContent = gameState.audioEnabled ? '🔊' : '🔇';
+            document.getElementById('audio-label').textContent = gameState.audioEnabled ? 'KESAN BUNYI: ON' : 'KESAN BUNYI: OFF';
+        }
+
+        function toggleDebug() {
+            gameState.debugEnabled = !gameState.debugEnabled;
+            document.getElementById('debug-panel').classList.toggle('hidden', !gameState.debugEnabled);
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen-view').forEach(s => s.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+            document.getElementById(screenId).classList.add('flex');
+            gameState.currentScreen = screenId;
+            updateDebugDisplay();
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            playSound('pop');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        let wheelAngle = 0;
+        let isSpinning = false;
+
+        function drawMeterWheel() {
+            const canvas = document.getElementById('wheel-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+            const radius = cx - 10;
+
+            const sectors = [
+                { meter: '2/4', color: '#ec4899', top: '2', bot: '4' },
+                { meter: '3/4', color: '#3b82f6', top: '3', bot: '4' },
+                { meter: '4/4', color: '#a855f7', top: '4', bot: '4' }
+            ];
+
+            ctx.clearRect(0, 0, w, h);
+
+            const arc = (Math.PI * 2) / sectors.length;
+
+            sectors.forEach((sec, i) => {
+                const startAngle = wheelAngle + i * arc;
+                const endAngle = startAngle + arc;
+
+                // Sector slice
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, radius, startAngle, endAngle);
+                ctx.fillStyle = sec.color;
+                ctx.fill();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+
+                // Draw Stacked Fraction Numbers
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(startAngle + arc / 2);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 36px Fredoka, sans-serif';
+
+                // Distance from center
+                const textDist = radius * 0.6;
+                ctx.fillText(sec.top, textDist, -14);
+                
+                // Fraction line
+                ctx.beginPath();
+                ctx.moveTo(textDist - 16, 0);
+                ctx.lineTo(textDist + 16, 0);
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+
+                ctx.fillText(sec.bot, textDist, 18);
+                ctx.restore();
+            });
+
+            // Outer ring embellishments
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+            ctx.lineWidth = 8;
+            ctx.strokeStyle = '#fef08a';
+            ctx.stroke();
+        }
+
+        function spinWheel() {
+            if (isSpinning) return;
+            isSpinning = true;
+            document.getElementById('btn-spin-wheel').disabled = true;
+            document.getElementById('meter-result-box').classList.add('hidden');
+            document.getElementById('btn-next-to-claw').classList.add('hidden');
+
+            const meters = ['2/4', '3/4', '4/4'];
+            const chosenMeter = meters[Math.floor(Math.random() * meters.length)];
+            
+            // Calculate target angle to land on chosen meter
+            const targetSectorIdx = meters.indexOf(chosenMeter);
+            const sectorArc = (Math.PI * 2) / 3;
+            // Pointer is at Top (-Math.PI/2)
+            const targetAngleOffset = -Math.PI / 2 - (targetSectorIdx * sectorArc + sectorArc / 2);
+            const extraRounds = Math.PI * 2 * (4 + Math.floor(Math.random() * 2));
+            const finalAngle = wheelAngle + extraRounds + (targetAngleOffset - (wheelAngle % (Math.PI * 2)));
+
+            const startTime = performance.now();
+            const duration = 3000;
+
+            function animateSpin(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                wheelAngle = wheelAngle + (finalAngle - wheelAngle) * 0.08;
+                
+                drawMeterWheel();
+                if (Math.random() < 0.2) playSound('spin');
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    isSpinning = false;
+                    document.getElementById('btn-spin-wheel').disabled = false;
+                    gameState.selectedMeter = chosenMeter;
+                    
+                    // Show Result
+                    document.getElementById('meter-display-result').innerHTML = getStackedMeterHTML(chosenMeter);
+                    document.getElementById('meter-result-box').classList.remove('hidden');
+                    document.getElementById('btn-next-to-claw').classList.remove('hidden');
+                    playSound('correct');
+                    updateDebugDisplay();
+                }
+            }
+            requestAnimationFrame(animateSpin);
+        }
+
+        function getStackedMeterHTML(meterStr, colorClass = '') {
+            const [top, bot] = meterStr.split('/');
+            return `
+                <div class="meter-fraction ${colorClass}">
+                    <span class="top-num">${top}</span>
+                    <span class="bot-num">${bot}</span>
+                </div>
+            `;
+        }
+
+        function startGame() {
+            gameState.score = 0;
+            gameState.firstTryCount = 0;
+            gameState.completedQuestions.clear();
+            showScreen('screen-meter');
+            drawMeterWheel();
+        }
+
+        function goToClawMachineScreen() {
+            showScreen('screen-claw');
+            
+            // Highlight active claw machine
+            ['24', '34', '44'].forEach(id => {
+                const box = document.getElementById(`claw-box-${id}`);
+                box.classList.remove('border-amber-400', 'scale-105', 'opacity-100', 'shadow-2xl');
+                box.classList.add('opacity-60');
+            });
+
+            const activeId = gameState.selectedMeter.replace('/', '');
+            const activeBox = document.getElementById(`claw-box-${activeId}`);
+            if (activeBox) {
+                activeBox.classList.remove('opacity-60');
+                activeBox.classList.add('border-amber-400', 'scale-105', 'opacity-100', 'shadow-2xl');
+            }
+
+            document.getElementById('active-meter-badge').innerHTML = getStackedMeterHTML(gameState.selectedMeter);
+
+            renderQuestionCards();
+        }
+
+        function renderQuestionCards() {
+            const grid = document.getElementById('question-cards-grid');
+            grid.innerHTML = '';
+
+            const questions = QUESTIONS_DATABASE[gameState.selectedMeter] || [];
+
+            questions.forEach((q, idx) => {
+                const isCompleted = gameState.completedQuestions.has(q.id);
+                
+                let diffBadge = 'bg-emerald-500 text-white';
+                let diffLabel = '🟢 MUDAH';
+                if (q.difficulty === 'medium') { diffBadge = 'bg-amber-500 text-white'; diffLabel = '🟡 SEDERHANA'; }
+                if (q.difficulty === 'hard') { diffBadge = 'bg-rose-500 text-white'; diffLabel = '🔴 SUKAR'; }
+
+                const card = document.createElement('div');
+                card.className = `glass-card p-3 rounded-2xl border-2 transition hover:scale-105 cursor-pointer flex flex-col justify-between ${isCompleted ? 'border-emerald-400 bg-emerald-50/90' : 'border-white'}`;
+                card.onclick = () => selectQuestion(idx);
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${diffBadge}">${diffLabel}</span>
+                        ${isCompleted ? '<span class="text-xs font-bold text-emerald-600">✅ SELESAI</span>' : ''}
+                    </div>
+                    <div class="text-xs font-black text-slate-800 mb-1">Soalan ${idx + 1}</div>
+                    <div class="text-xs font-medium text-slate-600 mb-3">${q.text}</div>
+                    <button class="w-full py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow">
+                        🕹️ BINA IRAMA
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function selectQuestion(idx) {
+            gameState.currentQuestionIndex = idx;
+            gameState.attemptsCount = 1;
+            gameState.bottleBalls = [];
+            showScreen('screen-gameplay');
+            setupCurrentQuestionView();
+            playSound('pop');
+        }
+
+        function setupCurrentQuestionView() {
+            const questions = QUESTIONS_DATABASE[gameState.selectedMeter];
+            const q = questions[gameState.currentQuestionIndex];
+
+            // Update Labels
+            document.getElementById('game-progress-label').textContent = `🎵 MISI ${gameState.currentQuestionIndex + 1}/${questions.length}`;
+            
+            // Progress dots
+            const dots = document.getElementById('progress-dots').children;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = i <= gameState.currentQuestionIndex ? 'text-amber-300' : 'text-white/40';
+            }
+
+            document.getElementById('live-score-val').textContent = gameState.score;
+            document.getElementById('question-title').textContent = `Soalan ${gameState.currentQuestionIndex + 1}`;
+            document.getElementById('game-meter-display').innerHTML = getStackedMeterHTML(gameState.selectedMeter);
+            document.getElementById('question-instruction').textContent = q.text;
+            document.getElementById('target-beat-label').textContent = `${q.targetBeats} detik`;
+
+            // Badge
+            const badge = document.getElementById('question-badge-difficulty');
+            if (q.difficulty === 'easy') { badge.className = 'self-start text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-500 text-white'; badge.textContent = '🟢 MUDAH'; }
+            else if (q.difficulty === 'medium') { badge.className = 'self-start text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500 text-white'; badge.textContent = '🟡 SEDERHANA'; }
+            else { badge.className = 'self-start text-xs font-bold px-2.5 py-1 rounded-full bg-rose-500 text-white'; badge.textContent = '🔴 SUKAR'; }
+
+            // Reset Bottle View
+            renderBottleContent();
+            
+            // Hide Validation & Next Button
+            document.getElementById('validation-banner').classList.add('hidden');
+            document.getElementById('btn-next-question').classList.add('hidden');
+            document.getElementById('btn-validate-rhythm').classList.remove('hidden');
+            document.getElementById('btn-clap-rhythm').disabled = true;
+
+            updateDebugDisplay();
+        }
+
+        function addBallToBottle(noteKey) {
+            gameState.bottleBalls.push(noteKey);
+            playSound('pop');
+            renderBottleContent();
+        }
+
+        function removeBallFromBottle(index) {
+            gameState.bottleBalls.splice(index, 1);
+            playSound('pop');
+            renderBottleContent();
+        }
+
+        function clearBottle() {
+            gameState.bottleBalls = [];
+            playSound('pop');
+            renderBottleContent();
+        }
+
+        function renderBottleContent() {
+            const container = document.getElementById('bottle-balls-container');
+            container.innerHTML = '';
+
+            let totalBeats = 0;
+            let equationTerms = [];
+
+            gameState.bottleBalls.forEach((key, idx) => {
+                const note = NOTES[key];
+                totalBeats += note.value;
+                equationTerms.push(note.value === 0.5 ? '½' : note.value);
+
+                // Create Ball DOM Element
+                const ball = document.createElement('div');
+                ball.id = `bottle-ball-${idx}`;
+                ball.className = `pingpong-ball ${note.colorClass} w-12 h-12 text-white font-bold text-xl animate-bounce-in flex-shrink-0 cursor-pointer hover:scale-110`;
+                ball.title = `${note.name} (${note.value} detik) - Klik untuk buang`;
+                ball.onclick = () => removeBallFromBottle(idx);
+                ball.innerHTML = `<span>${note.symbol}</span>`;
+
+                container.appendChild(ball);
+            });
+
+            // Update Math Display
+            const mathEq = equationTerms.length > 0 ? equationTerms.join(' + ') + ` = ${totalBeats} DETIK` : '0 DETIK';
+            document.getElementById('bottle-math-equation').textContent = mathEq;
+            document.getElementById('bottle-total-sum').textContent = `JUMLAH = ${totalBeats} DETIK`;
+
+            updateDebugDisplay();
+        }
+
+        function validateRhythmAnswer() {
+            const questions = QUESTIONS_DATABASE[gameState.selectedMeter];
+            const q = questions[gameState.currentQuestionIndex];
+
+            // Compute actual total beats
+            let currentTotalBeats = 0;
+            let currentCounts = {};
+
+            gameState.bottleBalls.forEach(key => {
+                const note = NOTES[key];
+                currentTotalBeats += note.value;
+                currentCounts[key] = (currentCounts[key] || 0) + 1;
+            });
+
+            const banner = document.getElementById('validation-banner');
+            banner.classList.remove('hidden', 'bg-emerald-500/90', 'bg-rose-500/90', 'text-white');
+
+            // Check if total beats match AND required note counts match question
+            let isBeatCorrect = (currentTotalBeats === q.targetBeats);
+            let isPatternCorrect = true;
+
+            if (q.requiredCounts) {
+                Object.keys(q.requiredCounts).forEach(reqKey => {
+                    if ((currentCounts[reqKey] || 0) !== q.requiredCounts[reqKey]) {
+                        isPatternCorrect = false;
+                    }
+                });
+            }
+
+            if (isBeatCorrect && isPatternCorrect) {
+                // SUCCESS!
+                playSound('correct');
+                banner.classList.add('bg-emerald-500/90', 'text-white');
+                banner.innerHTML = `🟢 MISI BERJAYA!<br><span class="text-xs font-medium">Corak irama kamu tepat dan memenuhi meter!</span>`;
+
+                // Scoring
+                let earned = 100;
+                if (gameState.attemptsCount === 2) earned = 70;
+                if (gameState.attemptsCount >= 3) earned = 40;
+
+                if (gameState.attemptsCount === 1) gameState.firstTryCount++;
+                gameState.score += earned;
+                document.getElementById('live-score-val').textContent = gameState.score;
+
+                gameState.completedQuestions.add(q.id);
+
+                // Enable clapping button & next question
+                document.getElementById('btn-clap-rhythm').disabled = false;
+                document.getElementById('btn-validate-rhythm').classList.add('hidden');
+                document.getElementById('btn-next-question').classList.remove('hidden');
+
+            } else {
+                // BELUM TEPAT
+                playSound('wrong');
+                gameState.attemptsCount++;
+                banner.classList.add('bg-rose-500/90', 'text-white');
+                banner.innerHTML = `🔴 BELUM TEPAT<br><span class="text-xs font-medium">Sila semak semula gabungan not dan pengiraan nilai detik kamu.</span>`;
+            }
+
+            updateDebugDisplay();
+        }
+
+        function nextQuestion() {
+            const questions = QUESTIONS_DATABASE[gameState.selectedMeter];
+            if (gameState.currentQuestionIndex < questions.length - 1) {
+                gameState.currentQuestionIndex++;
+                gameState.attemptsCount = 1;
+                gameState.bottleBalls = [];
+                setupCurrentQuestionView();
+            } else {
+                // ALL QUESTIONS FINISHED FOR THIS METER!
+                showVictoryScreen();
+            }
+        }
+
+        function showVictoryScreen() {
+            showScreen('screen-victory');
+            document.getElementById('final-score-val').textContent = `${gameState.score} MATA`;
+            document.getElementById('final-first-try-val').textContent = `${gameState.firstTryCount} / 6 Soalan`;
+            playSound('correct');
+        }
+
+        let isClapping = false;
+
+        async function playRhythmClaps() {
+            if (isClapping || gameState.bottleBalls.length === 0) return;
+            isClapping = true;
+            const btn = document.getElementById('btn-clap-rhythm');
+            btn.disabled = true;
+
+            const bpm = 100;
+            const beatDurationMs = (60 / bpm) * 1000; // ms per beat
+
+            // Sequential step through each ball in the bottle
+            for (let i = 0; i < gameState.bottleBalls.length; i++) {
+                const noteKey = gameState.bottleBalls[i];
+                const note = NOTES[noteKey];
+                const ballEl = document.getElementById(`bottle-ball-${i}`);
+
+                if (ballEl) ballEl.classList.add('ball-clapping');
+
+                if (!note.isRest) {
+                    playSound('clap');
+                }
+
+                // Wait duration for this note
+                const noteMs = note.value * beatDurationMs;
+                await new Promise(resolve => setTimeout(resolve, noteMs));
+
+                if (ballEl) ballEl.classList.remove('ball-clapping');
+            }
+
+            isClapping = false;
+            btn.disabled = false;
+        }
+
+        function startSandboxMode() {
+            gameState.sandboxBalls = [];
+            document.getElementById('sandbox-name').value = 'Murid Muzik';
+            document.getElementById('sandbox-meter').value = '4/4';
+            resetSandboxBottle();
+            openModal('modal-sandbox');
+        }
+
+        function addSandboxBall(key) {
+            gameState.sandboxBalls.push(key);
+            renderSandboxContent();
+            playSound('pop');
+        }
+
+        function resetSandboxBottle() {
+            gameState.sandboxBalls = [];
+            renderSandboxContent();
+        }
+
+        function renderSandboxContent() {
+            const container = document.getElementById('sandbox-balls-box');
+            container.innerHTML = '';
+
+            let total = 0;
+            gameState.sandboxBalls.forEach((key, idx) => {
+                const note = NOTES[key];
+                total += note.value;
+
+                const ball = document.createElement('div');
+                ball.className = `pingpong-ball ${note.colorClass} w-10 h-10 text-white font-bold text-base flex-shrink-0`;
+                ball.innerHTML = `<span>${note.symbol}</span>`;
+                container.appendChild(ball);
+            });
+
+            document.getElementById('sandbox-math').textContent = `JUMLAH = ${total} DETIK`;
+        }
+
+        async function playSandboxRhythm() {
+            if (gameState.sandboxBalls.length === 0) return;
+            const bpm = 100;
+            const beatMs = (60 / bpm) * 1000;
+
+            for (let i = 0; i < gameState.sandboxBalls.length; i++) {
+                const key = gameState.sandboxBalls[i];
+                const note = NOTES[key];
+                if (!note.isRest) playSound('clap');
+                await new Promise(res => setTimeout(res, note.value * beatMs));
+            }
+        }
+
+        function updateDebugDisplay() {
+            if (!gameState.debugEnabled) return;
+            document.getElementById('debug-screen').textContent = gameState.currentScreen;
+            document.getElementById('debug-meter').textContent = gameState.selectedMeter;
+            document.getElementById('debug-qidx').textContent = gameState.currentQuestionIndex;
+
+            let totalBeats = 0;
+            gameState.bottleBalls.forEach(k => totalBeats += NOTES[k].value);
+            document.getElementById('debug-beats').textContent = totalBeats;
+
+            const q = (QUESTIONS_DATABASE[gameState.selectedMeter] || [])[gameState.currentQuestionIndex];
+            document.getElementById('debug-target').textContent = q ? q.targetBeats : '-';
+            document.getElementById('debug-audio').textContent = audioCtx ? audioCtx.state : 'uninitialized';
+        }
+
+        // FPS Tracker for Debug
+        let lastFrameTime = performance.now();
+        let frameCount = 0;
+        function updateFPS() {
+            const now = performance.now();
+            frameCount++;
+            if (now - lastFrameTime >= 1000) {
+                if (gameState.debugEnabled) {
+                    document.getElementById('debug-fps').textContent = frameCount;
+                }
+                frameCount = 0;
+                lastFrameTime = now;
+            }
+            requestAnimationFrame(updateFPS);
+        }
+
+        window.addEventListener('load', () => {
+            // Generate Ambient Bubbles
+            const bubblesContainer = document.getElementById('bubbles-container');
+            for (let i = 0; i < 20; i++) {
+                const b = document.createElement('div');
+                b.className = 'bubble';
+                const size = Math.random() * 30 + 10;
+                b.style.width = `${size}px`;
+                b.style.height = `${size}px`;
+                b.style.left = `${Math.random() * 100}%`;
+                b.style.animationDuration = `${Math.random() * 8 + 6}s`;
+                b.style.animationDelay = `${Math.random() * 5}s`;
+                bubblesContainer.appendChild(b);
+            }
+
+            // Start FPS Counter
+            requestAnimationFrame(updateFPS);
+
+            // Audio Context & BGM initialization on first user interaction
+            document.body.addEventListener('click', () => {
+                getAudioContext();
+                if (gameState.bgmEnabled) {
+                    startBGM();
+                }
+            }, { once: true });
+        });
+    </script>
+</body>
+</html>
